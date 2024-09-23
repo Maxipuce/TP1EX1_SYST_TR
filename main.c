@@ -1,9 +1,13 @@
+#include "ex1.c"
+#include "ex1.h"
+#include <math.h>
 #include <stdio.h>
 #include <sys/types.h>
 #include <unistd.h>
 
 void ex1() {
   int n;
+  double U = 0.0, Urm;
   printf("Entre le nombre de tâches : ");
   scanf("%d", &n);
 
@@ -35,19 +39,40 @@ void ex1() {
       printf("%d ", table[i][j]);
     }
   }
+
   int ord;
-  printf("\nChoisissez entre différents ordonnanceurs :\n");
-  printf("1.Highest Priority First (HPF) or 2.Rate Monotonic (RM) or "
-         "3.Deadline Monotonic (DM)");
-  printf("Votre choix (1,2 ou 3) est : ");
+  printf("\n\nChoisissez entre différents ordonnanceurs :\n");
+  printf("1.Highest Priority First (HPF)\n2.Rate Monotonic (RM)\n3.Deadline "
+         "Monotonic (DM)\n");
+  printf("Votre choix (1, 2 ou 3) est : ");
   scanf("%d", &ord);
 
-  if (ord = 1) {
-    printf("Vous avez choisis HPF");
-  } else if (ord = 2) {
-    printf("Vous avez choisis RM");
-  } else if (ord = 3) {
-    printf("Vous avez choisis DM");
+  if (ord == 1) {
+    printf("Vous avez choisi HPF");
+
+  } else if (ord == 2) {
+    printf("\nVous avez choisi RM.\n");
+
+    // Calcul de Urm en utilisant la formule correcte
+    Urm = n * (pow(2, 1.0 / n) - 1.0);
+
+    // Calcul de U
+    for (int i = 0; i < n; i++) {
+      U += (double)table[i][0] / table[i][2];
+    }
+
+    if (U > 1) {
+      printf("Le système est non faisable car U (%.2f) > 1.", U);
+    } else if (U <= Urm) {
+      printf("Le système est faisable car U (%.2f) <= Urm (%.2f).", U, Urm);
+    } else {
+      printf("On ne peut pas déduire selon la charge, donc on doit appliquer "
+             "l'analyse des échéances : Urm < U < 1 (%.2f < %.2f < 1).",
+             Urm, U);
+    }
+
+  } else if (ord == 3) {
+    printf("Vous avez choisi DM");
   }
 }
 
@@ -58,8 +83,8 @@ int main() {
   if (c1 == 1) {
     ex1();
   } else if (c1 == 2) {
-    printf("Exercise 2\n");
+    printf("Exercice 2\n");
   } else if (c1 == 3) {
-    printf("Exercise 3\n");
+    printf("Exercice 3\n");
   }
 }
