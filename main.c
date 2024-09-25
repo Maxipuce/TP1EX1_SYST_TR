@@ -1,7 +1,6 @@
-#include "ex1.c"
-#include "ex1.h"
 #include <math.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <sys/types.h>
 #include <unistd.h>
 
@@ -62,12 +61,12 @@ void ex1() {
     }
 
     if (U > 1) {
-      printf("Le système est non faisable car U (%.2f) > 1.", U);
+      printf("Le système est non faisable car U (%.2f) > 1.\n", U);
     } else if (U <= Urm) {
-      printf("Le système est faisable car U (%.2f) <= Urm (%.2f).", U, Urm);
+      printf("Le système est faisable car U (%.2f) <= Urm (%.2f).\n", U, Urm);
     } else {
       printf("On ne peut pas déduire selon la charge, donc on doit appliquer "
-             "l'analyse des échéances : Urm < U < 1 (%.2f < %.2f < 1).",
+             "l'analyse des échéances : Urm < U < 1 (%.2f < %.2f < 1).\n",
              Urm, U);
     }
 
