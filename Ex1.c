@@ -10,7 +10,7 @@ void ex1() {
   printf("Choisis les paramètres de ton problème.\nEntre le nombre de tâches : ");
   scanf("%d", &n);
 
-  int table[n][4];
+  int table[n][5];
 
   for (int i = 0; i < n; i++) {
     int C, D, T, P;
@@ -76,14 +76,5 @@ void ex1() {
 }
 
 int main() {
-  int c1;
-  printf("Choisis l'exercice (1 ou 2 ou 3) :");
-  scanf("%d", &c1);
-  if (c1 == 1) {
     ex1();
-  } else if (c1 == 2) {
-    printf("Exercice 2\n");
-  } else if (c1 == 3) {
-    printf("Exercice 3\n");
-  }
 }
