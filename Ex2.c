@@ -50,6 +50,26 @@ int main() {
         {"T3", 4, 7}
     };
 
+    Task tasks[] = {
+
+    }
+
+    //Choix de l'input pour l'utilisateur
+    printf("Entre le nombre de tâches de ton problème : ");
+    scanf("%d", &n);
+    
+    for (int i=0; i<n; i++){
+        int C, D;
+
+        printf("\nEntre la durée d'exécution C de la tâche %d : ", i + 1);
+        scanf("%d", &C);
+        
+
+        printf("Entre l'échéance D de la tâche %d : ", i + 1);
+        scanf("%d", &D);
+
+    }
+
     int num_tasks = sizeof(tasks) / sizeof(tasks[0]);
 
     // Affichage des tâches avant exécution
