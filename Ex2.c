@@ -46,32 +46,28 @@ void run_edf_scheduler(Task tasks[], int num_tasks) {
 int main() {
 
     int n;
-    // Création de quelques tâches (id, temps d'exécution, échéance)
-    /*Task tasks[] = {
-        {"T1", 2, 5},
-        {"T2", 1, 3},
-        {"T3", 4, 7}
-    };*/
 
-    Task tasks[] = {
-
-    };
-
-    //Choix de l'input pour l'utilisateur
+    // Choix de l'input pour l'utilisateur
     printf("Entre le nombre de tâches de ton problème : ");
     scanf("%d", &n);
     
-    for (int i=0; i<n; i++){
+    // Allouer dynamiquement le tableau tasks[] de taille n
+    Task *tasks = (Task *)malloc(n * sizeof(Task));
+
+    for (int i = 0; i < n; i++) {
         int C, D;
         char taskName[10];
+
+        // Génération du nom de la tâche
+        sprintf(taskName, "T%d", i + 1);
 
         printf("\nEntre la durée d'exécution C de la tâche %d : ", i + 1);
         scanf("%d", &C);
         
-
         printf("Entre l'échéance D de la tâche %d : ", i + 1);
         scanf("%d", &D);
 
+        // Copier les données dans le tableau tasks[]
         strcpy(tasks[i].task_id, taskName);
         tasks[i].execution_time = C;
         tasks[i].deadline = D;
@@ -79,20 +75,21 @@ int main() {
     
     printf("\nListe des tâches :\n");
     for (int i = 0; i < n; i++) {
-        printf("Tâche %d : Durée = %d, Échéance = %d\n", i+1 , tasks[i].execution_time, tasks[i].deadline);
+        printf("Tâche %s : Durée = %d, Échéance = %d\n", tasks[i].task_id, tasks[i].execution_time, tasks[i].deadline);
     }
     
-    int num_tasks = sizeof(tasks) / sizeof(tasks[0]);
-
     // Affichage des tâches avant exécution
     printf("Tâches avant l'exécution:\n");
-    for (int i = 0; i < num_tasks; i++) {
+    for (int i = 0; i < n; i++) {
         print_task(tasks[i]);
     }
     printf("=========================================\n");
 
     // Exécution de l'ordonnanceur EDF
-    run_edf_scheduler(tasks, num_tasks);
+    run_edf_scheduler(tasks, n);
+
+    // Libération de la mémoire
+    free(tasks);
     
     return 0;
 }
