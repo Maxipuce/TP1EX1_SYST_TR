@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 
 typedef struct {
@@ -43,16 +44,18 @@ void run_edf_scheduler(Task tasks[], int num_tasks) {
 }
 
 int main() {
+
+    int n;
     // Création de quelques tâches (id, temps d'exécution, échéance)
-    Task tasks[] = {
+    /*Task tasks[] = {
         {"T1", 2, 5},
         {"T2", 1, 3},
         {"T3", 4, 7}
-    };
+    };*/
 
     Task tasks[] = {
 
-    }
+    };
 
     //Choix de l'input pour l'utilisateur
     printf("Entre le nombre de tâches de ton problème : ");
@@ -60,6 +63,7 @@ int main() {
     
     for (int i=0; i<n; i++){
         int C, D;
+        char taskName[10];
 
         printf("\nEntre la durée d'exécution C de la tâche %d : ", i + 1);
         scanf("%d", &C);
@@ -68,8 +72,16 @@ int main() {
         printf("Entre l'échéance D de la tâche %d : ", i + 1);
         scanf("%d", &D);
 
+        strcpy(tasks[i].task_id, taskName);
+        tasks[i].execution_time = C;
+        tasks[i].deadline = D;
     }
-
+    
+    printf("\nListe des tâches :\n");
+    for (int i = 0; i < n; i++) {
+        printf("Tâche %d : Durée = %d, Échéance = %d\n", i+1 , tasks[i].execution_time, tasks[i].deadline);
+    }
+    
     int num_tasks = sizeof(tasks) / sizeof(tasks[0]);
 
     // Affichage des tâches avant exécution
@@ -81,6 +93,6 @@ int main() {
 
     // Exécution de l'ordonnanceur EDF
     run_edf_scheduler(tasks, num_tasks);
-
+    
     return 0;
 }
