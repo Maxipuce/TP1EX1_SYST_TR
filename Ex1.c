@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <sys/types.h>
 #include <unistd.h>
+#include "response_time.h"
 
 void ex1() {
   int n;
@@ -74,6 +75,9 @@ void ex1() {
 
   } else if (ord == 3) {
     printf("Vous avez choisi DM");
+
+    calc_resp_time(table, n);
+
   }
 }
 
