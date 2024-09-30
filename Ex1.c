@@ -6,8 +6,10 @@
 
 void ex1() {
   int n;
+  int t;
+  
   double U = 0.0, Urm;
-  printf("Choisis les paramètres de ton problème.\nEntre le nombre de tâches : ");
+  printf("Choisis les paramètres de ton problème.\n\nEntre le nombre de tâches : ");
   scanf("%d", &n);
 
   int table[n][5];
