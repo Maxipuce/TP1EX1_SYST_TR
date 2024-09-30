@@ -3,6 +3,7 @@
 #include <string.h>
 #include <unistd.h>
 
+// Structure Task
 typedef struct {
     char task_id[10];
     int execution_time;
@@ -43,29 +44,48 @@ void run_edf_scheduler(Task tasks[], int num_tasks) {
     }
 }
 
-int main() {
+// Fonction pour obtenir un entier positif valide
+int get_positive_int(const char *prompt) {
+    int value;
+    int result;
+    
+    do {
+        printf("%s", prompt);
+        result = scanf("%d", &value);
+        
+        // Vérifier si l'entrée est un entier valide
+        if (result != 1) {
+            printf("Erreur : veuillez entrer un nombre entier valide.\n");
+            while (getchar() != '\n'); // Vider le buffer de l'entrée
+        }
+        // Vérifier si l'entrée est un entier positif
+        else if (value < 0) {
+            printf("Erreur : la valeur ne peut pas être négative.\n");
+        }
+    } while (result != 1 || value < 0);  // Boucle tant que l'entrée est incorrecte
+    
+    return value;
+}
 
+int main() {
     int n;
 
     // Choix de l'input pour l'utilisateur
-    printf("Entre le nombre de tâches de ton problème : ");
-    scanf("%d", &n);
+    n = get_positive_int("Entre le nombre de tâches de ton problème : ");
     
     // Allouer dynamiquement le tableau tasks[] de taille n
     Task *tasks = (Task *)malloc(n * sizeof(Task));
 
     for (int i = 0; i < n; i++) {
-        int C, D;
         char taskName[10];
 
         // Génération du nom de la tâche
         sprintf(taskName, "T%d", i + 1);
 
-        printf("\nEntre la durée d'exécution C de la tâche %d : ", i + 1);
-        scanf("%d", &C);
-        
-        printf("Entre l'échéance D de la tâche %d : ", i + 1);
-        scanf("%d", &D);
+        printf("Donnez les informations de la tache T%d :", i+1);
+        // Obtenir la durée d'exécution et l'échéance avec vérification
+        int C = get_positive_int("\nEntre la durée d'exécution (C) : ");
+        int D = get_positive_int("Entre l'échéance (D) : ");
 
         // Copier les données dans le tableau tasks[]
         strcpy(tasks[i].task_id, taskName);
@@ -73,6 +93,7 @@ int main() {
         tasks[i].deadline = D;
     }
     
+    // Affichage de la liste des tâches
     printf("\nListe des tâches :\n");
     for (int i = 0; i < n; i++) {
         printf("Tâche %s : Durée = %d, Échéance = %d\n", tasks[i].task_id, tasks[i].execution_time, tasks[i].deadline);
