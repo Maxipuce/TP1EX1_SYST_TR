@@ -25,6 +25,7 @@ void print_task(Task task) {
 // Fonction pour exécuter les tâches selon EDF
 void run_edf_scheduler(Task tasks[], int num_tasks) {
     int current_time = 0;
+    int all_tasks_completed_on_time = 1; // Indicateur pour savoir si toutes les tâches sont terminées à temps
     
     // Tri des tâches selon l'échéance la plus proche (algorithme EDF)
     qsort(tasks, num_tasks, sizeof(Task), compare);
@@ -32,7 +33,15 @@ void run_edf_scheduler(Task tasks[], int num_tasks) {
     // Exécution des tâches
     for (int i = 0; i < num_tasks; i++) {
         Task task = tasks[i];
+        
+        // Vérifier si la tâche peut être terminée avant son échéance
+        if (current_time + task.execution_time > task.deadline) {
+            printf("Erreur : la tâche %s ne peut pas être terminée avant son échéance (%ds).\n", task.task_id, task.deadline);
+            all_tasks_completed_on_time = 0;
+            break;
+        }
 
+        // Exécution de la tâche
         printf("Exécution de la tâche %s à l'instant %d (échéance à %d)\n", task.task_id, current_time, task.deadline);
         
         // Simuler l'exécution de la tâche (en pause avec sleep)
@@ -41,6 +50,13 @@ void run_edf_scheduler(Task tasks[], int num_tasks) {
 
         printf("Tâche %s terminée à l'instant %d\n", task.task_id, current_time);
         printf("-----------------------------------------\n");
+    }
+    
+    // Si toutes les tâches ont été complétées avant leur échéance
+    if (all_tasks_completed_on_time) {
+        printf("Toutes les tâches ont été complétées avant leurs échéances.\n");
+    } else {
+        printf("Certaines tâches n'ont pas pu être complétées avant leur échéance.\n");
     }
 }
 
