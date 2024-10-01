@@ -57,7 +57,3 @@ Puis l'algorithme informe l'utilisateur sur la faisabilité du système
   Puis l'algorithme informe l'utilisateur sur la faisabilité du système en mode Deadline Monotonic
       
   </p>
-  
-  
-
-
