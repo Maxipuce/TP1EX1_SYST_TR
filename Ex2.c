@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <math.h>
 
 // Structure Task
 typedef struct {
@@ -37,10 +38,36 @@ int all_tasks_executed_twice(Task tasks[], int num_tasks) {
     return 1; // Toutes les tâches ont été exécutées deux fois
 }
 
+
+int calculate_busy_period(Task tasks[], int num_tasks) {
+    int busy_period = 0;
+    int previous_busy_period = -1;  // Initialisation à une valeur différente
+    int t = 1;
+
+    // La boucle continue tant que la busy period n'est pas stabilisée
+    while (busy_period != previous_busy_period) {
+        previous_busy_period = busy_period;  // Mémoriser l'ancienne busy period
+        busy_period = 0;  // Réinitialiser la busy period pour le nouveau calcul
+        
+        for (int i = 0; i < num_tasks; i++) {
+            // Ajout de la contribution de la tâche i à la busy period
+            busy_period += ceil((double)t / (double)tasks[i].period) * tasks[i].execution_time;
+        }
+        t = busy_period;
+        printf("Pour t = %d, busy_period = %d\n", t, busy_period);
+    }
+
+    return busy_period;
+}
+
 void run_edf_scheduler(Task tasks[], int num_tasks, int hyperperiod) {
     int current_time = 0;
 
-    while (current_time < hyperperiod) {
+    // Calcul de la busy period
+    int busy_period = calculate_busy_period(tasks, num_tasks);
+    printf("La busy period est : %d\n", busy_period);
+
+    while (current_time < busy_period) {
 
         if (all_tasks_executed_twice(tasks, num_tasks)) {
             printf("Toutes les tâches ont été exécutées deux fois sans problème. Arrêt de l'ordonnanceur.\n");
@@ -89,6 +116,8 @@ void run_edf_scheduler(Task tasks[], int num_tasks, int hyperperiod) {
                 if (task->remaining_time > 0) {
                     printf("Erreur : La tâche %s n'a pas pu être terminée avant son échéance (%ds).\n", 
                            task->task_id, task->deadline);
+                    printf("L'ensemble de tâches n'est pas faisable.\n");
+                    return;
                 } else {
                     // Incrémenter le compteur d'exécutions si la tâche est terminée
                     task->execution_count += 1;
