@@ -1,4 +1,4 @@
-## TP1_SYST_TR
+# TP1_SYST_TR
 
-# Exercice 1:
+## Exercice 1:
 
