@@ -37,13 +37,11 @@ int all_tasks_executed_twice(Task tasks[], int num_tasks) {
     return 1; // Toutes les tâches ont été exécutées deux fois
 }
 
-// Fonction pour exécuter les tâches selon EDF préemptif
 void run_edf_scheduler(Task tasks[], int num_tasks, int hyperperiod) {
     int current_time = 0;
 
-    // Boucle sur le temps jusqu'à atteindre l'hyperpériode
     while (current_time < hyperperiod) {
-        // Si toutes les tâches ont été exécutées deux fois, on arrête l'ordonnanceur
+
         if (all_tasks_executed_twice(tasks, num_tasks)) {
             printf("Toutes les tâches ont été exécutées deux fois sans problème. Arrêt de l'ordonnanceur.\n");
             break;
@@ -71,6 +69,7 @@ void run_edf_scheduler(Task tasks[], int num_tasks, int hyperperiod) {
 
                 printf("Tâche %s a exécuté 1 unité de temps. Temps restant : %d\n", 
                        task->task_id, task->remaining_time);
+                printf("=========================================\n");
                 task_executed = 1;
                 break;  // Préempter après chaque unité de temps pour permettre la réévaluation
             }
